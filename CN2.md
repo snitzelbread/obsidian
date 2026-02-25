@@ -53,7 +53,7 @@ This would be R7 in the example.
 
 ### Designated Router (DR) & Backup Designated Router (BDR)
 
-These are routers that are only available within a broadcast network. In the example, these are the Routers R1, R2, R3 and R4, but connected via the switch. So the interface that points to the switch from an adjacent router is a broadcast network type interface.
+These are routers that are only available within a broadcast network. In the example, these are the Routers R1, R2, R3 and R4, but with the interfaces that point towards the switch. So the interface that points to the switch from an adjacent router is a broadcast network type interface.
 
 They collect router information and send that out to all the other routers. This means that all the internal routers only have adjacencies with the DR and BDR. This reduces OSPF traffic and LSA flooding.
 
@@ -63,7 +63,38 @@ So basically, DR is the boss, he gets new info from a peasant router (via design
 
 The other routers are called DROTHERS (or No-DR/BDR)
 
-## Areas
+## OSPF Message Types & LSA Types
+
+Lets imagine two villages between which boats go back and forth. They go from one village to the other one, maintaining a relationship with that village, checking up on them, or maybe even to ask them to exchange information. Sometimes the first village asks the boat to get them the new information that the other village has. So the boat goes back with a request to bring new information. It goes back, gets the information, and then goes back to the other village, giving them the information.
+
+We can see, the boat is an analogy for the OSPF Message Types. It either checks up on the village (a "Hello" Message Type 1), asks for new information (Request Message Type 3), brings them new information (LS Update Message Type 4), or confirms that the other village got the information (LSAck Message Type 5).
+
+LSA Types are the actual information that the villages exchange, so the content. They ALSO come in different types. It could be routing information or maybe network information. They are then carried by an LSU (Link State Update) Message Type to the other router (village).
+
+Because there are so many different things a OSPF Message Type can tell us, there are different types to distinguish their purpose.
+
+### Type 1: Hello
+
+Discovers neighbors and maintains adjacencies. Basically just introduction and maintaining the connection.
+
+### Type 2: Database Description (DBD)
+
+Used during initialization. It summarizes ones LSDB (Link State Database), the database that contains all the routing information one has. If there is some information the other router doesn't have, then it will send a Message Type 3.
+
+### Type 3: Link State Request (LSR)
+
+With this, R1 requests LSA's that are missing from it's own database from R2. R2 will receive this request and then send send R1 the information via a Type 4.
+
+### Type 4: Link State Update (LSU)
+
+These are the actual messages that CONTAIN the LSA's. They can carry multiple LSA's.
+
+### Type 5: Link State Acknowledgment (LSAck)
+
+These are sent back to the sender to tell them **explicitly** that they have received the LSU. Sometimes it isn't used though and instead the receiver sends back another LSU with the same stuff that the receiver just sent. This is the **implicit** acknowledgment.
+
+
+## Area Types
 
 ### Backbone Area - (Area 0)
 
@@ -77,8 +108,15 @@ The Backbone Area allows for all types, which is important, because it has a tot
 
 These Standard Areas don't have any special limitations. They have an ABR, which allows all LSA Types in. Within a Standard Area, you have routes to other areas, external AS's, and obviously to the ones within your area.
 
-## Stub Area
+### Stub Area
 
 Stub Areas are bit more complex. They don't allow for external routing information (external meaning outside the WHOLE network, so to the internet for example). This means that LSA Type 5's are not allowed within the area. Now how do we send information out to AS's? Well there is a default route to the Stub Area's ABR. The ABR is connected to the Backbone Area, which in turn knows where to send the request.
 
+### Not So Stubby Area (NSSA)
 
+The Not So Stubby Area is the same as the Stubby Area, except that it allows for LSA Type 7's within it's own area. The LSA Type 7's come from ASBR's that are within the area and whose information need to be propagated to outside of that area. These LSA's are transported through the NSSA as Type 7's but are then translated to Type 5's at the ABR to then be sent to other Areas and the Backbone Area.
+
+### Totally Stubby Area (TSA)
+
+
+### Totally Not So Stubby Area (TNSSA)
