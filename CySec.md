@@ -357,7 +357,7 @@ Core Standards:
 	- Customer data, intellectual property, source code, etc.
 - **Technical Assets** 
 	- Services, applications, databases, networks, etc.
-- Physical Assets 
+- **Physical Assets** 
 	- Servers, devices, facilities, infrastructure, etc.
 - **Human Assets**
 	- Employees, administrators, contractors, key personnel, etc.
@@ -372,15 +372,13 @@ Core Standards:
 
 ### Identifying Threats
 
-**Definition**: A potential event, actor, or action that could exploit a vulnerability and cause harm to an asset.
+**Threat**: A potential event, actor, or action that could exploit a vulnerability and cause harm to an asset.
 
 **Examples**:
 - Power Outages
 - Insider Threat
 - Datacenter Fire
 - Vishing Attack
-
-
 # Policy, Standards and Practices
 
 ![[Pasted image 20260227133058.png]]
