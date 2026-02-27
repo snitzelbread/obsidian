@@ -22,7 +22,7 @@ $$
 NOCH MEHR
 
 $$
-Rechenfehler = \frac{max(?\in [a, b] |f^{(n+1)}(?)|}{(n+1)!}(\frac{b-a}{2})^{n+1} \leq \frac{m}{(n+1)!} (\frac{b-a}{2})^{n+1} < maxErlaubteFehler
+Rechenfehler = \frac{max(?\in [a, b] |f^{(n+1)}(?)|}{(n+1)!}(\frac{b-a}{2})^{n+1} \leq \frac{m}{(n+1)!} (\frac{b-a}{2})^{n+1} < max.\ Erlaubte\ Fehler
 $$
 $$
 Wähle\ m > max(?\in [a, b])\ |f^{(n+1)}(?)|
